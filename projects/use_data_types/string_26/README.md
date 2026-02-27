@@ -130,7 +130,7 @@ String 类作为 Java 语言的一个部分(你不用 import 任何包就能使�
 
 ##### 第二部分：本部分可用 vibe coding 来实现
 
-> **说明**：本部分作业请使用 AI 编程助手（如 Cursor, GitHub Copilot, ChatGPT 等）辅助完成。你的任务是设计合理的 Prompt（提示词），审查 AI 生成的代码逻辑，并将其整合到你之前的代码中。
+> **说明**：本部分作业请使用 AI 编程助手辅助完成。你的任务是设计合理的 Prompt（提示词），审查 AI 生成的代码逻辑，并将其整合到你之前的代码中。
 
 **邮件群发工具**：在社团或班级里，经常会从不同来源收集通讯录（Excel 导出、表单、复制粘贴、群里手敲），格式混乱、大小写不统一、分隔符不一致、还夹杂坏数据。你需要做一个命令行小工具，先把通讯录清洗成可导入的规范格式，再基于清洗出的邮箱名单构建一个安全的群发邮件助手，用于发送通知/活动报名/作业提醒等。
 
@@ -149,3 +149,100 @@ String 类作为 Java 语言的一个部分(你不用 import 任何包就能使�
 - 支持**预览模式**：不真的发送，而是把即将发送的每封邮件生成到本地 `outbox/`，便于人工确认。
 - 支持**发送记录**：能生成一份sent log，至少包含时间、收件人、主题、结果（成功/失败原因）。
 - 支持**安全策略**：例如限速/分批、重复发送保护、可跳过黑名单文件等。
+
+
+
+**测试说明与样例**
+
+样例分为两部分，公开样例和测试样例。公开样例如下所示，用于帮助实现完整的程序和初步检查程序中的问题，测试样例（未发布）用于检查最终程序的完善程度与可用性。
+
+对于每一个样例，你都需要编写一个命令行程序来调用你的 Java 程序，并生成按要求命名的输出文件，通过样例的要求是所有的输出文件与正确的输出文件**按字符对比**完全一致。
+
+**样例 1**
+
+```txt
+ alice , Alice@Example.COM , shanghai 
+Bob;bob@example.com;Beijing
+charlie| charlie@example.com |   New   York
+Daisy, daisyexample.com, Paris
+Eve, eve@evil., LA
+Frank|frank@foo.com
+,,,
+  Grace  ; GRACE@EXAMPLE.COM ; shen zhen  
+```
+
+要求：clean 模式，formal 输出
+
+`output.txt`
+
+```txt
+Alice,alice@example.com,Shanghai
+Bob,bob@example.com,Beijing
+Charlie,charlie@example.com,New York
+Grace,grace@example.com,Shen Zhen
+```
+
+`bad.txt`
+
+```txt
+Daisy, daisyexample.com, Paris
+Eve, eve@evil., LA
+Frank|frank@foo.com
+,,,
+```
+
+
+
+**样例 2**
+
+```txt
+Tom|TOM@EXAMPLE.COM|Hangzhou
+tom,tom@example.com,hangzhou
+Jerry; jerry@Example.Com ; Shanghai
+BadGuy|badguy.example.com|Nowhere
+ALICE, Alice@Example.COM, SH
+```
+
+要求：emails 模式，lower 输出，去重
+
+`emails.txt`
+
+```txt
+tom@example.com
+jerry@example.com
+alice@example.com
+```
+
+
+
+**样例 3**
+
+```txt
+Alice,alice@example.com,Shanghai
+Bob,bob@example.com,Beijing
+Charlie,charlie@example.com,New York
+Grace,grace@example.com,Shen Zhen
+```
+
+要求：生成 emails.txt，对于每一个收件人，生成对应邮件内容
+
+`emails.txt`：
+
+```txt
+alice@example.com
+bob@example.com
+charlie@example.com
+grace@example.com
+```
+
+邮件模板：
+
+```txt
+To: {email}
+Subject: Club Notice: Welcome {name}
+
+Hi {name},
+Your city is {city}.
+See you at the club!
+```
+
